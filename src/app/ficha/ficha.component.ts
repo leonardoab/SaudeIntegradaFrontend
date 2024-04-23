@@ -51,6 +51,8 @@ export class FichaComponent implements OnInit{
 
   displayedColumns: string[] = ['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'remover'];
 
+  fichaDataSource: MatTableDataSource<Exercicio>[] = [];
+
   constructor() { }
 
   ngOnInit(): void { 
@@ -251,7 +253,9 @@ export class FichaComponent implements OnInit{
       // Se houverem mais fichas, continuar adicionando aqui...
     ];
 
-
+    this.fichaDetalhes.forEach(ficha => {
+      this.fichaDataSource.push(new MatTableDataSource(ficha.conteudo));
+    });
 
 
 
@@ -269,17 +273,12 @@ export class FichaComponent implements OnInit{
   }
 
   removeExercise(fichaIndex: number, exercicioIndex: number): void {
-    if (
-      fichaIndex < 0 ||
-      fichaIndex >= this.fichaDetalhes.length ||
-      exercicioIndex < 0 ||
-      exercicioIndex >= this.fichaDetalhes[fichaIndex].conteudo.length
-    ) {
-      console.error('Índices fornecidos estão fora dos limites.');
-      return;
-    }
-  
-    this.fichaDetalhes[fichaIndex].conteudo.splice(exercicioIndex, 1);
+    const data = this.fichaDataSource[fichaIndex].data;
+  data.splice(exercicioIndex, 1);
+  this.fichaDataSource[fichaIndex].data = data; // Atualizar a fonte de dados
+
+
+    
   }
   
 

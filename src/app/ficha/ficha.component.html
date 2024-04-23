@@ -83,7 +83,7 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
           
-              <table mat-table [dataSource]="ficha.conteudo" class="mat-elevation-z8">
+              <table mat-table [dataSource]="fichaDataSource[i]" class="mat-elevation-z8">
                 <!-- Colunas existentes aqui -->
                 <ng-container matColumnDef="numero">
                   <th mat-header-cell *matHeaderCellDef> Nº </th>
