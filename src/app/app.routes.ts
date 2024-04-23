@@ -3,7 +3,7 @@ import { FichaComponent } from './ficha/ficha.component';
 
 export const routes: Routes = [
     {
-        path: 'ficha',
+        path: '',
         component: FichaComponent
 
     }
