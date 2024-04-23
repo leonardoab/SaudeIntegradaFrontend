@@ -269,7 +269,15 @@ export class FichaComponent implements OnInit{
   
 
   addExercise(fichaIndex: number, newExercicio: Exercicio) {
-    this.fichaDetalhes[fichaIndex].conteudo.push(newExercicio);
+    
+    //const data = this.fichaDetalhes[fichaIndex].conteudo.push(newExercicio);
+
+
+    const data = this.fichaDataSource[fichaIndex].data;
+    data.push(newExercicio);
+    this.fichaDataSource[fichaIndex].data = data; // Atualizar a fonte de dados
+    
+  
   }
 
   removeExercise(fichaIndex: number, exercicioIndex: number): void {
