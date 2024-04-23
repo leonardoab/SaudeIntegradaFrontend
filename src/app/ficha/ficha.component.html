@@ -8,11 +8,14 @@
         </mat-expansion-panel-header>
   
         <!-- Verifica se é a ficha de 'Informações Gerais' -->
-        <div *ngIf="ficha.titulo === 'Informações Gerais'" class="info-section">
+        
           <div class="info-block">
             <div class="info-item">
-              <span class="info-label">Nome:</span>
-              <span class="info-value">{{ ficha.conteudo[0].valor }}</span>
+              <div class="info-item">
+                <span class="info-label">Período:</span>
+                <span class="info-value">{{ ficha.conteudo[1].valor }}</span>
+              </div>
+              
             </div>
             <div class="info-item">
               <span class="info-label">Data Teste Carga:</span>
@@ -22,8 +25,9 @@
   
           <div class="info-block">
             <div class="info-item">
-              <span class="info-label">Período:</span>
-              <span class="info-value">{{ ficha.conteudo[1].valor }}</span>
+              <span class="info-label">Nível:</span>
+              <span class="info-value">{{ ficha.conteudo[9].valor }}</span>
+              
             </div>
             <div class="info-item">
               <span class="info-label">Próximo Teste Carga:</span>
@@ -33,26 +37,103 @@
   
           <div class="info-block">
             <div class="info-item">
-              <span class="info-label">Nível:</span>
-              
+              <span class="info-label">Metodo:</span>
+              <span class="info-value">{{ ficha.conteudo[2].valor }}</span>
             </div>
             <div class="info-item">
               <span class="info-label">Próxima Avaliação Física:</span>
-              <span class="info-value">{{ ficha.conteudo[5].valor }}</span>
+              <span class="info-value">{{ ficha.conteudo[4].valor }}</span>
             </div>
           </div>
-  
           <div class="info-block">
             <div class="info-item">
-              <span class="info-label">Método:</span>
+              <span class="info-label">Velocidade Execução:</span>
               <span class="info-value">{{ ficha.conteudo[6].valor }}</span>
             </div>
+            <div class="info-item">
+              <span class="info-label">Descanso:</span>
+              <span class="info-value">{{ ficha.conteudo[7].valor }}</span>
+            </div>
           </div>
-        </div>
+          <div class="info-block">
+            <div class="info-item">
+              <span class="info-label">Duração:</span>
+              <span class="info-value">{{ ficha.conteudo[8].valor }}</span>
+            </div>
+            <div class="info-item">
+              </div>
+          </div>
+  
+          
+        
   
         <!-- Conteúdo para outras fichas -->
         <!-- ... -->
       </mat-expansion-panel>
-    </mat-accordion>
+
+      
+
+
+        <div class="fichas-container">
+          <mat-accordion multi="true">
+            <mat-expansion-panel *ngFor="let ficha of fichaDetalhes; let i = index">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ ficha.titulo }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+          
+              <table mat-table [dataSource]="ficha.conteudo" class="mat-elevation-z8">
+                <!-- Colunas existentes aqui -->
+                <ng-container matColumnDef="numero">
+                  <th mat-header-cell *matHeaderCellDef> Nº </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.numero }} </td>
+                </ng-container>
+          
+                <ng-container matColumnDef="exercicio">
+                  <th mat-header-cell *matHeaderCellDef> Exercício </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.exercicio }} </td>
+                </ng-container>
+          
+                <ng-container matColumnDef="carga">
+                  <th mat-header-cell *matHeaderCellDef> Carga </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.carga }} </td>
+                </ng-container>
+          
+                <ng-container matColumnDef="sets">
+                  <th mat-header-cell *matHeaderCellDef> Sets </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.sets }} </td>
+                </ng-container>
+          
+                <ng-container matColumnDef="repeticoes">
+                  <th mat-header-cell *matHeaderCellDef> Repetições </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.repeticoes }} </td>
+                </ng-container>
+          
+                <!-- Nova coluna para remover exercício -->
+                <ng-container matColumnDef="remover">
+                  <th mat-header-cell *matHeaderCellDef> Remover </th>
+                  <td mat-cell *matCellDef="let element; let j = index">
+                    <mat-icon (click)="removeExercise(i, j)">delete</mat-icon>
+                  </td>
+                </ng-container>
+          
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+          
+              <!-- Botão para adicionar um novo exercício -->
+              <button mat-raised-button color="primary" (click)="addExercise(i, {numero: ficha.conteudo.length + 1, exercicio: '', carga: '', sets: '', repeticoes: ''})">
+                Adicionar Exercício
+              </button>
+            </mat-expansion-panel>
+          </mat-accordion>
+          
+          
+          
+
+
+    
+
   </div>
   

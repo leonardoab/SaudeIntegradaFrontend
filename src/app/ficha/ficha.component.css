@@ -71,3 +71,8 @@
   }
   
   
+
+  mat-icon {
+    cursor: pointer; /* Torna claro que o ícone é clicável */
+    color: red; /* Muda a cor para melhor visibilidade */
+  }
