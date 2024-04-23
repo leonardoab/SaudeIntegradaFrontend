@@ -1,1 +1,58 @@
-<p>ficha works!</p>
+<div class="container">
+    <mat-accordion multi="true">
+      <mat-expansion-panel *ngFor="let ficha of fichas">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ ficha.titulo }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+  
+        <!-- Verifica se é a ficha de 'Informações Gerais' -->
+        <div *ngIf="ficha.titulo === 'Informações Gerais'" class="info-section">
+          <div class="info-block">
+            <div class="info-item">
+              <span class="info-label">Nome:</span>
+              <span class="info-value">{{ ficha.conteudo[0].valor }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Data Teste Carga:</span>
+              <span class="info-value">{{ ficha.conteudo[3].valor }}</span>
+            </div>
+          </div>
+  
+          <div class="info-block">
+            <div class="info-item">
+              <span class="info-label">Período:</span>
+              <span class="info-value">{{ ficha.conteudo[1].valor }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Próximo Teste Carga:</span>
+              <span class="info-value">{{ ficha.conteudo[4].valor }}</span>
+            </div>
+          </div>
+  
+          <div class="info-block">
+            <div class="info-item">
+              <span class="info-label">Nível:</span>
+              
+            </div>
+            <div class="info-item">
+              <span class="info-label">Próxima Avaliação Física:</span>
+              <span class="info-value">{{ ficha.conteudo[5].valor }}</span>
+            </div>
+          </div>
+  
+          <div class="info-block">
+            <div class="info-item">
+              <span class="info-label">Método:</span>
+              <span class="info-value">{{ ficha.conteudo[6].valor }}</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Conteúdo para outras fichas -->
+        <!-- ... -->
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  
