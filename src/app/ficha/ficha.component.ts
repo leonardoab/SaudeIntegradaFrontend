@@ -9,6 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';  // Import FormsModule here
+
 
 
 
@@ -38,7 +40,8 @@ interface FichaDetalhes {
     MatExpansionModule,
     MatTableModule,
     MatCheckboxModule ,
-    MatIconModule
+    MatIconModule,
+    FormsModule
       
     ],
   templateUrl: './ficha.component.html',
@@ -49,13 +52,24 @@ export class FichaComponent implements OnInit{
   fichaDetalhes: FichaDetalhes[] = [];
   fichas: any = [] = [];
 
-  displayedColumns: string[] = ['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'remover'];
+  displayedColumns: string[] = ['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'acoes'];
+  columnHeaders: {[key: string]: string} = {numero: 'Nº', exercicio: 'Exercício', carga: 'Carga', sets: 'Sets', repeticoes: 'Repetições', acoes: 'Ações'};
 
+  
   fichaDataSource: MatTableDataSource<Exercicio>[] = [];
 
-  constructor() { }
+  
+
+  editingIndexes: { [index: string]: boolean } = {};
+
+
+  constructor() {
+    
+   }
 
   ngOnInit(): void { 
+
+    
 
     this.fichas = [
       { 
@@ -262,7 +276,9 @@ export class FichaComponent implements OnInit{
 
    }
 
-  
+   isEditing(fichaIndex: number, exercicioIndex: number): boolean {
+    return !!this.editingIndexes[`${fichaIndex}-${exercicioIndex}`];
+  }
 
   
 
@@ -288,9 +304,20 @@ export class FichaComponent implements OnInit{
 
     
   }
-  
 
-  
+
+  editExercise(fichaIndex: number, exercicioIndex: number): void {
+    this.editingIndexes[`${fichaIndex}-${exercicioIndex}`] = true;
+  }
+
+  saveExercise(fichaIndex: number, exercicioIndex: number): void {
+    delete this.editingIndexes[`${fichaIndex}-${exercicioIndex}`];
+    this.fichaDataSource[fichaIndex].data = [...this.fichaDataSource[fichaIndex].data];
+  }
+
+  cancelEdit(fichaIndex: number, exercicioIndex: number): void {
+    delete this.editingIndexes[`${fichaIndex}-${exercicioIndex}`];
+  }
   
   
 
