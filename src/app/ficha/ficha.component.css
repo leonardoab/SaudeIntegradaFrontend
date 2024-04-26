@@ -1,78 +1,80 @@
 .container {
-    margin: 0 auto;
-    padding: 0 20px;
-    max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1200px;
 }
 
 .filter-container {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .table-container {
-    overflow-x: auto;
+  overflow-x: auto;
 }
 
 .mat-table {
-    width: 100%;
+  width: 100%;
 }
 
 .mat-row,
 .mat-header-row {
-    display: flex;
-    border-bottom: 1px solid #ccc;
+  display: flex;
+  border-bottom: 1px solid #ccc;
 }
 
 .mat-cell,
 .mat-header-cell {
-    flex: 1;
-    padding: 12px;
-    text-align: left;
+  flex: 1;
+  padding: 12px;
+  text-align: left;
 }
 
 .mat-header-cell {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .mat-no-data-row {
-    font-style: italic;
-    color: #888;
+  font-style: italic;
+  color: #888;
 }
 
 
 
 .info-section {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .info-block {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-  }
-  
-  .info-item {
-    display: flex;
-    align-items: center;
-  }
-  
-  .info-label {
-    font-weight: bold;
-    margin-right: 5px;
-  }
-  
-  .info-value {
-    display: flex;
-    align-items: center;
-  }
-  
-  mat-checkbox {
-    margin-right: 5px;
-  }
-  
-  
+  display: flex;
+  flex-direction: column;
+}
 
-  mat-icon {
-    cursor: pointer; /* Torna claro que o ícone é clicável */
-    color: red; /* Muda a cor para melhor visibilidade */
-  }
+.info-block {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+}
+
+.info-label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.info-value {
+  display: flex;
+  align-items: center;
+}
+
+mat-checkbox {
+  margin-right: 5px;
+}
+
+
+
+mat-icon {
+  cursor: pointer;
+  /* Torna claro que o ícone é clicável */
+  color: red;
+  /* Muda a cor para melhor visibilidade */
+}

@@ -10,6 +10,12 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';  // Import FormsModule here
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+
+
 
 
 
@@ -32,52 +38,62 @@ interface FichaDetalhes {
 @Component({
   selector: 'app-ficha',
   standalone: true,
-  imports: [MatFormFieldModule, 
+  imports: [MatFormFieldModule,
     MatInputModule,
-    CommonModule, 
-    MatButtonModule, 
+    CommonModule,
+    MatButtonModule,
     MatSelectModule,
     MatExpansionModule,
     MatTableModule,
-    MatCheckboxModule ,
+    MatCheckboxModule,
     MatIconModule,
-    FormsModule
-      
-    ],
+    FormsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule
+
+  ],
   templateUrl: './ficha.component.html',
   styleUrl: './ficha.component.css'
 })
-export class FichaComponent implements OnInit{
+export class FichaComponent implements OnInit {
 
+  myControl = new FormControl('');
+  options: string[] = ['One', 'Two', 'Three'];
   fichaDetalhes: FichaDetalhes[] = [];
   fichas: any = [] = [];
 
-  displayedColumns: string[] = ['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'acoes'];
-  columnHeaders: {[key: string]: string} = {numero: 'Nº', exercicio: 'Exercício', carga: 'Carga', sets: 'Sets', repeticoes: 'Repetições', acoes: 'Ações'};
+  editarcadastro: boolean | undefined;
 
-  
+  displayedColumns: string[] = ['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'acoes'];
+  columnHeaders: { [key: string]: string } = { numero: 'Nº', exercicio: 'Exercício', carga: 'Carga', sets: 'Sets', repeticoes: 'Repetições', acoes: 'Ações' };
+
+
   fichaDataSource: MatTableDataSource<Exercicio>[] = [];
 
-  
+
 
   editingIndexes: { [index: string]: boolean } = {};
 
 
+
+
   constructor() {
-    
-   }
 
-  ngOnInit(): void { 
+  }
 
-    
+  ngOnInit(): void {
+
+    this.editarcadastro = false;
 
     this.fichas = [
-      { 
+      {
         titulo: 'Nome: Leonardo Araujo Bezerra',
         conteudo: [
           { chave: 'Nome', valor: 'Leonardo Araujo Bezerra' },
-          { chave: 'Período', valor: '18/03/2018 - 20/05/2018' },               
-          { chave: 'Método', valor: 'SS - APS' },        
+          { chave: 'Período', valor: '18/03/2018 - 20/05/2018' },
+          { chave: 'Método', valor: 'SS - APS' },
           { chave: 'Data Teste Carga', valor: '18/03/2018' },
           { chave: 'Próximo Teste Carga', valor: '20/05/2018' },
           { chave: 'Próxima Avaliação Física', valor: '20/05/2018' },
@@ -274,35 +290,49 @@ export class FichaComponent implements OnInit{
 
 
 
-   }
+  }
 
-   isEditing(fichaIndex: number, exercicioIndex: number): boolean {
+  isEditing(fichaIndex: number, exercicioIndex: number): boolean {
     return !!this.editingIndexes[`${fichaIndex}-${exercicioIndex}`];
   }
 
-  
+  isEditingCadastro() {
 
-  
+
+    return this.editarcadastro;
+
+  }
+
+  EditingCadastro(flag: boolean) {
+
+    this.editarcadastro = flag;
+    return this.editarcadastro;
+
+  }
+
+
+
+
 
   addExercise(fichaIndex: number, newExercicio: Exercicio) {
-    
+
     //const data = this.fichaDetalhes[fichaIndex].conteudo.push(newExercicio);
 
 
     const data = this.fichaDataSource[fichaIndex].data;
     data.push(newExercicio);
     this.fichaDataSource[fichaIndex].data = data; // Atualizar a fonte de dados
-    
-  
+
+
   }
 
   removeExercise(fichaIndex: number, exercicioIndex: number): void {
     const data = this.fichaDataSource[fichaIndex].data;
-  data.splice(exercicioIndex, 1);
-  this.fichaDataSource[fichaIndex].data = data; // Atualizar a fonte de dados
+    data.splice(exercicioIndex, 1);
+    this.fichaDataSource[fichaIndex].data = data; // Atualizar a fonte de dados
 
 
-    
+
   }
 
 
@@ -318,10 +348,10 @@ export class FichaComponent implements OnInit{
   cancelEdit(fichaIndex: number, exercicioIndex: number): void {
     delete this.editingIndexes[`${fichaIndex}-${exercicioIndex}`];
   }
-  
-  
 
 
-  
-  
+
+
+
+
 }

@@ -1,132 +1,258 @@
 <div class="container">
-    <mat-accordion multi="true">
-      <mat-expansion-panel *ngFor="let ficha of fichas">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
+  <mat-accordion multi="true">
+    <mat-expansion-panel *ngFor="let ficha of fichas">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <ng-container *ngIf="!isEditingCadastro()">
             {{ ficha.titulo }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-  
-        <!-- Verifica se é a ficha de 'Informações Gerais' -->
-        
-          <div class="info-block">
-            <div class="info-item">
-              <div class="info-item">
-                <span class="info-label">Período:</span>
-                <span class="info-value">{{ ficha.conteudo[1].valor }}</span>
-              </div>
-              
-            </div>
-            <div class="info-item">
-              <span class="info-label">Data Teste Carga:</span>
-              <span class="info-value">{{ ficha.conteudo[3].valor }}</span>
-            </div>
-          </div>
-  
-          <div class="info-block">
-            <div class="info-item">
-              <span class="info-label">Nível:</span>
-              <span class="info-value">{{ ficha.conteudo[9].valor }}</span>
-              
-            </div>
-            <div class="info-item">
-              <span class="info-label">Próximo Teste Carga:</span>
-              <span class="info-value">{{ ficha.conteudo[4].valor }}</span>
-            </div>
-          </div>
-  
-          <div class="info-block">
-            <div class="info-item">
-              <span class="info-label">Metodo:</span>
-              <span class="info-value">{{ ficha.conteudo[2].valor }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Próxima Avaliação Física:</span>
-              <span class="info-value">{{ ficha.conteudo[4].valor }}</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-item">
-              <span class="info-label">Velocidade Execução:</span>
-              <span class="info-value">{{ ficha.conteudo[6].valor }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Descanso:</span>
-              <span class="info-value">{{ ficha.conteudo[7].valor }}</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-item">
-              <span class="info-label">Duração:</span>
-              <span class="info-value">{{ ficha.conteudo[8].valor }}</span>
-            </div>
-            <div class="info-item">
-              </div>
-          </div>
-  
-          
-        
-  
-        <!-- Conteúdo para outras fichas -->
-        <!-- ... -->
-      </mat-expansion-panel>
+          </ng-container>
 
-      
+          <ng-container *ngIf="isEditingCadastro()">
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
+                [matAutocomplete]="auto" value="Ficha Leonardo 20/11/2024">
+              <mat-autocomplete #auto="matAutocomplete">
+                @for (option of options; track option) {
+                <mat-option [value]="option">{{option}}</mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+          </ng-container>
 
 
-        <div class="fichas-container">
-          <mat-accordion multi="true">
-            <mat-expansion-panel *ngFor="let ficha of fichaDetalhes; let i = index">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  {{ ficha.titulo }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-          
-              <table mat-table [dataSource]="fichaDataSource[i]" class="mat-elevation-z8">
-                <!-- Define the columns here, with an additional 'actions' column for edit and delete -->
-                <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-                  <th mat-header-cell *matHeaderCellDef> {{ columnHeaders[column] }} </th>
-                  <td mat-cell *matCellDef="let element; let j = index">
-                    <ng-container *ngIf="!isEditing(i, j)">
-                      {{ element[column] }}
-                    </ng-container>
-                    <ng-container *ngIf="isEditing(i, j)">
-                      <input [(ngModel)]="element[column]" type="text" (keyup.enter)="saveExercise(i, j)">
-                    </ng-container>
-                  </td>
+
+
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <!-- Verifica se é a ficha de 'Informações Gerais' -->
+
+      <ng-container *ngIf="!isEditingCadastro()">
+        <mat-icon (click)="EditingCadastro(true)">edit</mat-icon>
+
+      </ng-container>
+      <ng-container *ngIf="isEditingCadastro()">
+        <mat-icon (click)="EditingCadastro(false)">check</mat-icon>
+
+      </ng-container>
+
+      <div class="info-block">
+        <div class="info-item">
+          <div class="info-item">
+            <span class="info-label">Período:</span>
+            <ng-container *ngIf="!isEditingCadastro()">
+              <span class="info-value">{{ ficha.conteudo[1].valor }}</span>
+            </ng-container>
+            <ng-container *ngIf="isEditingCadastro()">
+              <input value="{{ ficha.conteudo[1].valor }}" type="text" class="example-full-width">
+            </ng-container>
+          </div>
+
+        </div>
+        <div class="info-item">
+          <span class="info-label">Data Teste Carga:</span>
+          <ng-container *ngIf="!isEditingCadastro()">
+            <span class="info-value">{{ ficha.conteudo[3].valor }}</span>
+          </ng-container>
+          <ng-container *ngIf="isEditingCadastro()">
+            <input value="{{ ficha.conteudo[3].valor }}" type="text" class="example-full-width">
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-item">
+          <span class="info-label">Nível:</span>
+          <ng-container *ngIf="!isEditingCadastro()">
+            <span class="info-value">{{ ficha.conteudo[9].valor }}</span>
+          </ng-container>
+          <ng-container *ngIf="isEditingCadastro()">
+            <input value="{{ ficha.conteudo[9].valor }}" type="text" class="example-full-width">
+          </ng-container>
+
+        </div>
+        <div class="info-item">
+          <span class="info-label">Próximo Teste Carga:</span>
+          <ng-container *ngIf="!isEditingCadastro()">
+            <span class="info-value">{{ ficha.conteudo[4].valor }}</span>
+          </ng-container>
+
+          <ng-container *ngIf="isEditingCadastro()">
+            <input value="{{ ficha.conteudo[4].valor }}" type="text" class="example-full-width">
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-item">
+          <span class="info-label">Metodo:</span>
+          <ng-container *ngIf="!isEditingCadastro()">
+            <span class="info-value">{{ ficha.conteudo[2].valor }}</span>
+          </ng-container>
+
+          <ng-container *ngIf="isEditingCadastro()">
+            <input value="{{ ficha.conteudo[2].valor }}" type="text" class="example-full-width">
+          </ng-container>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Próxima Avaliação Física:</span>
+          <ng-container *ngIf="!isEditingCadastro()">
+            <span class="info-value">{{ ficha.conteudo[4].valor }}</span>
+          </ng-container>
+
+          <ng-container *ngIf="isEditingCadastro()">
+            <input value="{{ ficha.conteudo[4].valor }}" type="text" class="example-full-width">
+          </ng-container>
+
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-item">
+
+          <span class="info-label">Velocidade Execução:</span>
+          <ng-container *ngIf="!isEditingCadastro()">
+            <span class="info-value">{{ ficha.conteudo[6].valor }}</span>
+          </ng-container>
+
+          <ng-container *ngIf="isEditingCadastro()">
+            <input value="{{ ficha.conteudo[6].valor }}" type="text" class="example-full-width">
+          </ng-container>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Descanso:</span>
+          <ng-container *ngIf="!isEditingCadastro()">
+            <span class="info-value">{{ ficha.conteudo[7].valor }}</span>
+          </ng-container>
+
+          <ng-container *ngIf="isEditingCadastro()">
+            <input value="{{ ficha.conteudo[7].valor }}" type="text" class="example-full-width">
+          </ng-container>
+
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-item">
+          <span class="info-label">Duração:</span>
+
+
+
+          <ng-container *ngIf="!isEditingCadastro()">
+            <span class="info-value">{{ ficha.conteudo[8].valor }}</span>
+          </ng-container>
+
+
+
+          <ng-container *ngIf="isEditingCadastro()">
+            <input value="{{ ficha.conteudo[8].valor }}" type="text" class="example-full-width">
+          </ng-container>
+
+        </div>
+        <div class="info-item">
+        </div>
+      </div>
+
+
+
+
+      <!-- Conteúdo para outras fichas -->
+      <!-- ... -->
+    </mat-expansion-panel>
+
+
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
+        [matAutocomplete]="auto" value="Ficha Leonardo 20/11/2024">
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of options; track option) {
+        <mat-option [value]="option">{{option}}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+
+    <div class="fichas-container">
+      <mat-accordion multi="true">
+        <mat-expansion-panel *ngFor="let ficha of fichaDetalhes; let i = index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ ficha.titulo }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <table mat-table [dataSource]="fichaDataSource[i]" class="mat-elevation-z8">
+            <!-- Define the columns here, with an additional 'actions' column for edit and delete -->
+            <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+              <th mat-header-cell *matHeaderCellDef> {{ columnHeaders[column] }} </th>
+              <td mat-cell *matCellDef="let element; let j = index">
+                <ng-container *ngIf="!isEditing(i, j)">
+                  {{ element[column] }}
+
+
+
+
                 </ng-container>
-          
-                <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef> Ações </th>
-                  <td mat-cell *matCellDef="let element; let j = index">
-                    <ng-container *ngIf="!isEditing(i, j)">
-                      <mat-icon (click)="editExercise(i, j)">edit</mat-icon>
-                      <mat-icon (click)="removeExercise(i, j)">delete</mat-icon>
-                    </ng-container>
-                    <ng-container *ngIf="isEditing(i, j)">
-                      <mat-icon (click)="saveExercise(i, j)">check</mat-icon>
-                      
-                    </ng-container>
-                  </td>
+                <ng-container *ngIf="isEditing(i, j) && column == 'exercicio'">
+
+
+                  <mat-form-field class="example-full-width">
+                    <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
+                      [matAutocomplete]="auto" [(ngModel)]="element[column]" (keyup.enter)="saveExercise(i, j)">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      @for (option of options; track option) {
+                      <mat-option [value]="option">{{option}}</mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+
                 </ng-container>
-          
-                <tr mat-header-row *matHeaderRowDef="['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'actions']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'actions'];"></tr>
-              </table>
-          
-              <!-- Button to add a new exercise -->
-              <button mat-raised-button color="primary" (click)="addExercise(i, {numero: ficha.conteudo.length + 1, exercicio: '', carga: '', sets: '', repeticoes: ''})">
-                Adicionar Exercício
-              </button>
-            </mat-expansion-panel>
-          </mat-accordion>
-          
-          
-          
+
+                <ng-container *ngIf="isEditing(i, j) && column != 'exercicio'">
+                  <!-- <mat-form-field class="example-full-width">-->
+
+                  <input [(ngModel)]="element[column]" type="text" (keyup.enter)="saveExercise(i, j)" matInput
+                    placeholder="Ex. Pizza" class="example-full-width">
 
 
-    
 
-  </div>
-  
+                  <!-- </mat-form-field>-->
+
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Ações </th>
+              <td mat-cell *matCellDef="let element; let j = index">
+                <ng-container *ngIf="!isEditing(i, j)">
+                  <mat-icon (click)="editExercise(i, j)">edit</mat-icon>
+                  <mat-icon (click)="removeExercise(i, j)">delete</mat-icon>
+                </ng-container>
+                <ng-container *ngIf="isEditing(i, j)">
+                  <mat-icon (click)="saveExercise(i, j)">check</mat-icon>
+
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'actions']">
+            </tr>
+            <tr mat-row
+              *matRowDef="let row; columns: ['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'actions'];"></tr>
+          </table>
+
+          <!-- Button to add a new exercise -->
+          <button mat-raised-button color="primary"
+            (click)="addExercise(i, {numero: ficha.conteudo.length + 1, exercicio: '', carga: '', sets: '', repeticoes: ''})">
+            Adicionar Exercício
+          </button>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+
+
+
+
+
+
+    </div>
