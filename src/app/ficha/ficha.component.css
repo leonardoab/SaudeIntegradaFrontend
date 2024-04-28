@@ -4,6 +4,8 @@
   max-width: 1200px;
 }
 
+
+/*
 .filter-container {
   margin-bottom: 20px;
 }
@@ -74,7 +76,36 @@ mat-checkbox {
 
 mat-icon {
   cursor: pointer;
-  /* Torna claro que o ícone é clicável */
+ 
   color: red;
-  /* Muda a cor para melhor visibilidade */
+ 
+}
+*/
+
+.column-numero,
+.column-carga,
+.column-sets,
+.column-repeticoes,
+.column-actions {
+  max-width: 80px; /* ou ajuste conforme a necessidade */
+}
+
+.column-exercicio {
+  max-width: 200px; /* ou ajuste conforme a necessidade */
+}
+
+.input-small {
+  max-width: 80px; /* ou ajuste conforme a necessidade */
+}
+
+.input-medium {
+  max-width: 120px; /* ou ajuste conforme a necessidade */
+}
+
+.input-large {
+  max-width: 200px; /* ou ajuste conforme a necessidade */
+}
+
+mat-form-field {
+  width: 100%;
 }
