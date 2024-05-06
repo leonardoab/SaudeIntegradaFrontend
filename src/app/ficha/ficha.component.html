@@ -9,12 +9,13 @@
 
           <ng-container *ngIf="isEditingCadastro()">
             <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
-                [matAutocomplete]="auto" value="Ficha Leonardo 20/11/2024">
+              <input type="text" placeholder="Selecione uma pessoa" aria-label="Number" matInput [formControl]="pessoa"
+                [matAutocomplete]="auto" value="Ficha Leonardo 20/11/2024" [(ngModel)]="ficha.titulo">
               <mat-autocomplete #auto="matAutocomplete">
-                @for (option of options; track option) {
-                <mat-option [value]="option">{{option}}</mat-option>
+                @for (pessoa of pessoaOpcoes | async; track pessoa) {
+                <mat-option [value]="pessoa">{{pessoa}}</mat-option>
                 }
+
               </mat-autocomplete>
             </mat-form-field>
           </ng-container>
@@ -160,11 +161,11 @@
 
 
     <mat-form-field class="example-full-width">
-      <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
+      <input type="text" placeholder="Selecione uma Ficha" aria-label="Number" matInput [formControl]="ficha"
         [matAutocomplete]="auto" value="Ficha Leonardo 20/11/2024">
       <mat-autocomplete #auto="matAutocomplete">
-        @for (option of options; track option) {
-        <mat-option [value]="option">{{option}}</mat-option>
+        @for (ficha of fichaOpcoes | async; track ficha) {
+        <mat-option [value]="ficha">{{ficha}}</mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
@@ -192,14 +193,22 @@
                   <mat-form-field class="input-small">
                     <input matInput [(ngModel)]="element[column]" type="text" placeholder="Ex. 001">
                   </mat-form-field>
+
+
+
                 </ng-container>
                 <ng-container *ngIf="isEditing(i, j) && column == 'exercicio'">
                   <mat-form-field class="input-large">
-                    <input matInput type="text" placeholder="Escolha um" aria-label="Number" [formControl]="myControl"
+                    <input matInput type="text" placeholder="Escolha um" aria-label="Number" [formControl]="exercicio"
                       [matAutocomplete]="auto" [(ngModel)]="element[column]" (keyup.enter)="saveExercise(i, j)">
                     <mat-autocomplete #auto="matAutocomplete">
-                      <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
+                      @for (exercicioBase of exercicioOpcoes | async; track exercicio) {
+                      <mat-option [value]="exercicioBase">{{exercicioBase}}</mat-option>
+                      }
                     </mat-autocomplete>
+
+
+
                   </mat-form-field>
                 </ng-container>
                 <ng-container *ngIf="isEditing(i, j) && column == 'carga'">
@@ -219,7 +228,7 @@
                 </ng-container>
               </td>
             </ng-container>
-          
+
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef class="column-actions"> Ações </th>
               <td mat-cell *matCellDef="let element; let j = index" class="column-actions">
@@ -238,12 +247,14 @@
                 </ng-container>
               </td>
             </ng-container>
-          
-            <tr mat-header-row *matHeaderRowDef="['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'actions']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'actions'];"></tr>
+
+            <tr mat-header-row *matHeaderRowDef="['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'actions']">
+            </tr>
+            <tr mat-row
+              *matRowDef="let row; columns: ['numero', 'exercicio', 'carga', 'sets', 'repeticoes', 'actions'];"></tr>
           </table>
-          
-          
+
+
 
           <!-- Button to add a new exercise -->
           <button mat-raised-button color="primary"

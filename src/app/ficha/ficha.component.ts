@@ -12,7 +12,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';  // Import FormsModule here
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
+import { BehaviorSubject, Observable } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+
+
+
+
+import { map, startWith } from 'rxjs/operators';
+import { AsyncPipe } from '@angular/common';
 
 
 
@@ -51,7 +59,8 @@ interface FichaDetalhes {
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AsyncPipe
 
   ],
   templateUrl: './ficha.component.html',
@@ -59,10 +68,31 @@ interface FichaDetalhes {
 })
 export class FichaComponent implements OnInit {
 
-  myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
+
+
+  pessoa = new FormControl('');
+  ficha = new FormControl('');
+  exercicio = new FormControl('');
+
+
+
+
+
+
   fichaDetalhes: FichaDetalhes[] = [];
   fichas: any = [] = [];
+
+  private _pessoas = new BehaviorSubject<string[]>(['Joao', 'Maria', 'Pedro']);
+  pessoas: Observable<string[]> = this._pessoas.asObservable();
+
+
+  private _exerciciosBase = new BehaviorSubject<string[]>(['Supino Reto', 'Leg', 'Puxador']);
+  exerciciosBase: Observable<string[]> = this._pessoas.asObservable();
+
+  private _fichasCriadas = new BehaviorSubject<string[]>(['05/05/2023', '06/05/2023', '07/05/2023']);
+  fichasCriadas: Observable<string[]> = this._pessoas.asObservable();
+
+
 
   editarcadastro: boolean | undefined;
 
@@ -76,14 +106,39 @@ export class FichaComponent implements OnInit {
 
   editingIndexes: { [index: string]: boolean } = {};
 
+  pessoaOpcoes!: Observable<string[]>;
+
+  exercicioOpcoes!: Observable<string[]>;
+
+  fichaOpcoes!: Observable<string[]>;
+
 
 
 
   constructor() {
-
+    this.ficha = new FormControl('teste');
   }
 
   ngOnInit(): void {
+
+    this.pessoaOpcoes = this.pessoa.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterPessoas(value || '')),
+    );
+
+    this.exercicioOpcoes = this.exercicio.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterExercicio(value || '')),
+    );
+
+
+    this.fichaOpcoes = this.ficha.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterFicha(value || '')),
+    );
+
+
+
 
     this.editarcadastro = false;
 
@@ -292,6 +347,21 @@ export class FichaComponent implements OnInit {
 
   }
 
+  private _filterPessoas(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this._pessoas.value.filter(pessoa => pessoa.toLowerCase().includes(filterValue));
+  }
+
+  private _filterFicha(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this._fichasCriadas.value.filter(ficha => ficha.toLowerCase().includes(filterValue));
+  }
+
+  private _filterExercicio(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this._exerciciosBase.value.filter(exercicio => exercicio.toLowerCase().includes(filterValue));
+  }
+
   isEditing(fichaIndex: number, exercicioIndex: number): boolean {
     return !!this.editingIndexes[`${fichaIndex}-${exercicioIndex}`];
   }
@@ -337,16 +407,23 @@ export class FichaComponent implements OnInit {
 
 
   editExercise(fichaIndex: number, exercicioIndex: number): void {
-    this.editingIndexes[`${fichaIndex}-${exercicioIndex}`] = true;
+    if (Object.keys(this.editingIndexes).length < 1) {
+      this.editingIndexes[`${fichaIndex}-${exercicioIndex}`] = true;
+
+    }
+
   }
 
   saveExercise(fichaIndex: number, exercicioIndex: number): void {
     delete this.editingIndexes[`${fichaIndex}-${exercicioIndex}`];
     this.fichaDataSource[fichaIndex].data = [...this.fichaDataSource[fichaIndex].data];
+
   }
 
   cancelEdit(fichaIndex: number, exercicioIndex: number): void {
+
     delete this.editingIndexes[`${fichaIndex}-${exercicioIndex}`];
+
   }
 
 

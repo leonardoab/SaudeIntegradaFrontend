@@ -47,16 +47,7 @@
   flex-direction: column;
 }
 
-.info-block {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
 
-.info-item {
-  display: flex;
-  align-items: center;
-}
 
 .info-label {
   font-weight: bold;
@@ -87,28 +78,34 @@ mat-icon {
 .column-sets,
 .column-repeticoes,
 .column-actions {
-  max-width: 80px; /* ajuste conforme a necessidade */
+  max-width: 80px;
+  /* ajuste conforme a necessidade */
 }
 
 .column-exercicio {
-  max-width: 400px; /* ajuste conforme a necessidade */
+  max-width: 400px;
+  /* ajuste conforme a necessidade */
 }
 
 /* Estilo para os campos de entrada */
 .input-small {
-  max-width: 80px; /* ajuste conforme a necessidade */
+  max-width: 80px;
+  /* ajuste conforme a necessidade */
   margin-left: -15px;
   font-size: 14px;
 }
 
 .input-medium {
-  max-width: 120px; /* ajuste conforme a necessidade */
+  max-width: 120px;
+  /* ajuste conforme a necessidade */
 }
 
 .input-large {
-  
-  position: relative; /* Adicionado para controle de posicionamento */
-  z-index: 2; /* Eleva o z-index para evitar sobreposição */
+
+  position: relative;
+  /* Adicionado para controle de posicionamento */
+  z-index: 2;
+  /* Eleva o z-index para evitar sobreposição */
   margin-left: -15px;
   font-size: 14px;
 }
@@ -116,27 +113,60 @@ mat-icon {
 /* Estilo global para os campos do formulário */
 mat-form-field {
   width: 100%;
-  line-height: normal; /* Ajuste para alinhamento de linha normal */
-  margin-bottom: 8px; /* Espaçamento abaixo do campo para evitar sobreposição */
+  line-height: normal;
+  /* Ajuste para alinhamento de linha normal */
+  margin-bottom: 8px;
+  /* Espaçamento abaixo do campo para evitar sobreposição */
 }
 
 /* Estilo para a caixa de seleção */
 mat-autocomplete-panel {
-  z-index: 9999; /* Garante que a lista suspensa esteja acima de outros elementos */
+  z-index: 9999;
+  /* Garante que a lista suspensa esteja acima de outros elementos */
 }
 
 /* Estilo para os elementos internos dos campos de entrada */
 .mat-input-element {
   padding: 0 5px;
-  font-size: 12px; /* Ajuste o tamanho da fonte conforme necessário */
-  height: auto; /* Deixa a altura se ajustar automaticamente ao conteúdo */
-  box-sizing: border-box; /* Inclui o padding na altura total */
- 
+  font-size: 12px;
+  /* Ajuste o tamanho da fonte conforme necessário */
+  height: auto;
+  /* Deixa a altura se ajustar automaticamente ao conteúdo */
+  box-sizing: border-box;
+  /* Inclui o padding na altura total */
+
 }
 
 /* Certifique-se de que o autocomplete não expanda a altura da linha */
 .mat-autocomplete-panel {
-  max-height: 256px; /* Altura máxima para o painel do autocomplete */
-  overflow-y: auto; /* Adiciona rolagem se o conteúdo for muito alto */
+  max-height: 256px;
+  /* Altura máxima para o painel do autocomplete */
+  overflow-y: auto;
+  /* Adiciona rolagem se o conteúdo for muito alto */
 }
 
+.info-block {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+}
+
+.input-small .mat-form-field-flex {
+  height: 30px;
+  /* Altura desejada */
+}
+
+.input-small .mat-form-field-infix {
+  height: 28px;
+  /* Um pouco menor que o flex para se ajustar dentro */
+}
+
+.input-small input.mat-input-element {
+  height: 30px;
+  /* Faz o input se ajustar à altura do infix */
+}
